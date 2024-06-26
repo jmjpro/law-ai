@@ -1,0 +1,43 @@
+{
+  "incidentOn": "Mon Sep 04 2023 14:39:12 GMT-0600 (Mountain Daylight Time)",
+  "caseNumber": "YG2EE9TH",
+  "clientName": "Miss Winifred Weber",
+  "clientDOB": "Sat Sep 16 2000 04:28:26 GMT-0600 (Mountain Daylight Time)",
+  "summary": "Demo case for LawPro.ai. This represents a fictional case involving a car accident that causes the passenger to break their left arm and worsen a slipped disc. There is a pre-existing diagnosis for the slipped disc, but the accident is found to be the cause of the broken arm.",
+  "note": "- passenger in a car that was hit by a drunk driver.\n- drunk driver was found to be at fault.\n- severely broken left arm with major, permanent disability.\n- They had a previous neck surgery that was re-injured in the crash.",
+  "caseFiles": [
+    {
+      "name": "DemoMedicalRecord.pdf",
+      "url": "s3://case-files/demo.pdf",
+      "summary": "Demo case file for LawPro.ai. This is a fictional medical record for a patient involved in a car accident, receiving surgery and physical therapy.",
+      "pages": 50,
+      "docOrder": 1
+    }
+  ],
+  "events": [
+    {
+      "id": "1",
+      "date": "9/25/2022",
+      "type": "diagnosis",
+      "name": "Diagnosis",
+      "data": "Diagnosis: 4mm bulge at C5-C6.",
+      "summary": "Doctor examined x-rays and diagnosed a 4mm bulging disc at C5-C6.",
+      "medicalOrg": "Sawayn - Cruickshank Medical Center",
+      "careProvider": "Dr. Darrin Swift",
+      "enabled": true,
+      "duplicate": false
+    },
+    {
+      "id": "2",
+      "date": "9/25/2022",
+      "type": "preexisting",
+      "name": "Pre-existing condition",
+      "data": "Pre-existing diagnosis for a slipped disc in neck.",
+      "summary": "Patient has a pre-existing diagnosis for a slipped disc in neck.",
+      "medicalOrg": "Sawayn - Cruickshank Medical Center",
+      "careProvider": "Dr. Darrin Swift",
+      "enabled": true,
+      "duplicate": false
+    }
+  ]
+}
