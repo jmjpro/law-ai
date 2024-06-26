@@ -1,12 +1,14 @@
 import {
   Button,
   Checkbox,
+  CircularProgress,
   Input,
   InputLabel,
   Stack,
   TextField,
   styled,
 } from '@mui/material'
+import { LoadingButton } from '@mui/lab';
 import {
   type UseQueryResult,
   useMutation,
@@ -177,7 +179,7 @@ export default function App({ clientDb, clientQuery }: AppProps) {
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
-          <Button type="submit" variant="contained">Update case</Button>
+          <LoadingButton type="submit" variant="contained" loading={updateCaseClient.isPending}>Update case</LoadingButton>
         </form>
       </Stack>
 

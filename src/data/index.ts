@@ -156,6 +156,8 @@ async function updateCaseOnClient(
   console.log('updating case on clientDb')
   console.log(theCase)
   try {
+    // add some artificial delay to allow the UI to display a loading state
+    await new Promise(resolve => setTimeout(resolve, 1000))
     await db.case.update(theCase.caseNumber, theCase)
   } catch (error) {
     console.error('Failed to update case. Error: ' + error)
