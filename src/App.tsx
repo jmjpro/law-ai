@@ -65,6 +65,7 @@ export default function App({ clientDb, clientQuery }: AppProps) {
     if (!clientCase) {
       return
     }
+    console.log(`updating event with id ${updatedEvent.id}`)
     const eventIndex = clientCase.events.findIndex(
       (event) => event.id === updatedEvent.id,
     )

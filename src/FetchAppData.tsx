@@ -62,12 +62,7 @@ export default function FetchAppData() {
   ) {
     addCaseClient.mutate({ db: clientDb, theCase: serverCase })
   } else {
-    console.log('not adding case to clientDb')
-    console.log({
-      serverCase,
-      responseGetCaseOnClient: clientCase,
-      isClientCaseCreated: isClientCaseAdded,
-    })
+    console.log('skipping the addition of case to clientDb')
   }
 
   if (isLoadingCaseServer || isLoadingCaseClient) {

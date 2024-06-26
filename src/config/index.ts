@@ -13,23 +13,12 @@ export default function getBaseConfig(
   } = clientQuery
 
   const baseConfig: Omit<
-    MRT_TableOptions<{
-      summary: string
-      type: string
-      date: string
-      id: string
-      name: string
-      data: string
-      medicalOrg: string
-      careProvider: string
-      enabled: boolean
-      duplicate: boolean
-    }>,
+    MRT_TableOptions<CaseEvent>,
     'columns'
   > = {
     isMultiSortEvent: () => true,
-    enableRowSelection: true,
-    enableMultiRowSelection: true,
+    /* enableRowSelection: true,
+    enableMultiRowSelection: true, */
     enableColumnOrdering: true, //enable a feature for all columns
     enableGlobalFilter: false, //turn off a feature
     enableGrouping: true,

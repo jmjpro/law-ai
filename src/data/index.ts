@@ -1,10 +1,10 @@
-import { MRT_ColumnDef } from 'material-react-table'
-import { z } from 'zod'
 import { Dexie, type EntityTable } from 'dexie'
 import dexieCloud from 'dexie-cloud-addon'
+import { MRT_ColumnDef } from 'material-react-table'
+import { v4 as uuidv4 } from 'uuid'
+import { z } from 'zod'
 
 const CaseEventDef = z.object({
-  id: z.string(),
   date: z.string(),
   type: z.string(),
   name: z.string(),
@@ -16,6 +16,8 @@ const CaseEventDef = z.object({
   duplicate: z.boolean(),
 })
 
+const CaseEventsDef = z.array(CaseEventDef)
+
 const CaseDef = z.object({
   incidentOn: z.string(),
   clientName: z.string(),
@@ -23,17 +25,17 @@ const CaseDef = z.object({
   clientDOB: z.string(),
   summary: z.string(),
   note: z.string(),
-  events: z.array(CaseEventDef),
 })
 
-type Case = z.infer<typeof CaseDef>
-type CaseEvent = z.infer<typeof CaseEventDef>
+type CaseEvent = { id: string } & z.infer<typeof CaseEventDef>
+type Case = z.infer<typeof CaseDef> & {events: CaseEvent[]}
 
 const eventLabels: MRT_ColumnDef<CaseEvent>[] = [
   {
     accessorKey: 'id',
     header: 'Id',
     enableEditing: false,
+    
   },
   {
     accessorKey: 'date',
@@ -77,15 +79,15 @@ type CaseTableClient = Dexie & {
   case: EntityTable<Case, 'caseNumber'>
 }
 function createClientDb(): CaseTableClient {
-  const db = new Dexie('Case', { addons: [dexieCloud] }) as CaseTableClient
+  const db = new Dexie('Case'/* , { addons: [dexieCloud] } */) as CaseTableClient
   db.version(1).stores({
     case: 'caseNumber',
   })
 
-  db.cloud.configure({
-    databaseUrl: 'https://z7ttalz1d.dexie.cloud',
+  /* db.cloud.configure({
+    databaseUrl: 'https://zw09wvihu.dexie.cloud',
     requireAuth: true, // optional
-  })
+  }) */
 
   return db
 }
@@ -97,15 +99,18 @@ async function getCaseServer(): Promise<Case | null> {
     throw new Error('Network response was not ok')
   }
   const json = (await response.json()) as Case
-  let parsedCase
+  let parsedCase: Omit<Case, 'events'>
+  let parsedEvents: Array<Omit<CaseEvent, 'id'>>
   try {
     parsedCase = CaseDef.parse(json)
+    parsedEvents = CaseEventsDef.parse(json.events)
   } catch (err) {
     console.error(`error ${err} parsing network response`)
     throw err
   }
   console.log('finished getting case from server')
-  return parsedCase
+  // assign a unique id to each event
+  return {...parsedCase, events: parsedEvents.map(event => ({id: uuidv4(), ...event}))}
 }
 
 async function getCaseOnClient(
